@@ -11,6 +11,7 @@ public class MiniServerSocketExample {
     private static final int PORT = 8080;
     public static void main(String[] args) {
         try {
+            System.out.println("Pene");
             ServerSocket server = new ServerSocket(PORT);
             System.out.println("MiniServer active " + PORT);
             PrintWriter writer = new PrintWriter("src/autentificado.txt", "UTF-8");
