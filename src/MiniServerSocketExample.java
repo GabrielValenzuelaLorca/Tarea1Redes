@@ -4,14 +4,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.FileReader;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.io.FileWriter;
+import java.net.*;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class MiniServerSocketExample {
     private static final int PORT = 8080;
     public static void main(String[] args) {
         try {
-            System.out.println("Pene");
             ServerSocket server = new ServerSocket(PORT);
             System.out.println("MiniServer active " + PORT);
             PrintWriter writer = new PrintWriter("src/autentificado.txt", "UTF-8");
@@ -32,9 +33,17 @@ class ThreadSocket extends Thread {
     @Override
     public void run() {
         try {
+            //Bonus
+            Calendar cal = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+            String hora= sdf.format(cal.getTime());
+            PrintWriter log = new PrintWriter(new FileWriter("src/log.txt",true));
+            String ip = insocket.getRemoteSocketAddress().toString().split("/")[1];
+            //=====================================================================
             InputStream is = insocket.getInputStream();
             PrintWriter out = new PrintWriter(insocket.getOutputStream());
             BufferedReader in = new BufferedReader(new InputStreamReader(is));
+
             String line;
             String lineaArchivo;
             line = in.readLine();
@@ -45,6 +54,8 @@ class ThreadSocket extends Thread {
             line = "";
             listaPartes[1]=listaPartes[1].replace("?", "");
             System.out.println("==METODO: "+listaPartes[0]+" URL: "+ listaPartes[1]);
+            log.println("IP: "+ip+" URL: htpp://localhost:8080"+listaPartes[1]+" Hora: "+hora+"\n");
+            log.close();
 
 
             //==========================================================================================================
@@ -69,7 +80,6 @@ class ThreadSocket extends Thread {
                                 encontreLogin = 1;
                                 out.println("HTTP/1.0 200 OK");
                                 out.println("Content-Type: text/html; charset=utf-8");
-                                out.println("Server: T1REDES");
                                 out.println("");
                                 out.println("<H1>Autentificación Completada</H1>");
 
@@ -78,7 +88,6 @@ class ThreadSocket extends Thread {
                         if (encontreLogin == 0){
                             out.println("HTTP/1.0 403 Forbidden");
                             out.println("Content-Type: text/html; charset=utf-8");
-                            out.println("Server: T1REDES");
                             out.println("");
                             out.println("<H1>ACCESO DENEGADO</H1>");
                         }
@@ -90,7 +99,6 @@ class ThreadSocket extends Thread {
 
                     out.println("HTTP/1.0 200 OK");
                     out.println("Content-Type: text/html; charset=utf-8");
-                    out.println("Server: T1REDES");
                     out.println("");
 
                     try (BufferedReader br = new BufferedReader(new FileReader("src/login.html"))) {
@@ -104,7 +112,6 @@ class ThreadSocket extends Thread {
                 else if (listaPartes[1].equals("/")){
                     out.println("HTTP/1.0 200 OK");
                     out.println("Content-Type: text/html; charset=utf-8");
-                    out.println("Server: MINISERVER");
                     // este linea en blanco marca el final de los headers de la response
                     out.println("");
                     // Envía el HTML
@@ -119,7 +126,6 @@ class ThreadSocket extends Thread {
                 else{
                     out.println("HTTP/1.0 404 Not Found");
                     out.println("Content-Type: text/html; charset=utf-8");
-                    out.println("Server: T1REDES");
                     out.println("");
                     out.println("<H1>Error 404 bad request</H1>");
                 }
@@ -158,7 +164,7 @@ class ThreadSocket extends Thread {
                     String pass = campos[1].split("=")[1];
 
                     //LOGEO EXITOSO
-                    if (user.equals("admin") && pass.equals("password")){
+                    if (user.equals("root") && pass.equals("rdc2017")){
                         try{
                             PrintWriter writer = new PrintWriter("src/autentificado.txt", "UTF-8");
                             writer.println("Logeo detectado");
@@ -169,7 +175,6 @@ class ThreadSocket extends Thread {
 
                         out.println("HTTP/1.0 200 OK");
                         out.println("Content-Type: text/html; charset=utf-8");
-                        out.println("Server: T1REDES");
                         out.println("");
                         out.println("<H1>Autentificación Completada</H1>");
 
@@ -179,7 +184,6 @@ class ThreadSocket extends Thread {
                     else{
                         out.println("HTTP/1.0 403 Forbidden");
                         out.println("Content-Type: text/html; charset=utf-8");
-                        out.println("Server: T1REDES");
                         out.println("");
                         out.println("<H1>ACCESO DENEGADO</H1>");
                     }
