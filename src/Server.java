@@ -9,7 +9,7 @@ import java.net.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class MiniServerSocketExample {
+public class Server {
     private static final int PORT = 8080;
     public static void main(String[] args) {
         try {

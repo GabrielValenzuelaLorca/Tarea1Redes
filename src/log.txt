@@ -1,8 +1,0 @@
-IP: 0:0:0:0:0:0:0:1:51292 URL: htpp://localhost:8080/ Hora: 19:36:48
-
-IP: 0:0:0:0:0:0:0:1:51293 URL: htpp://localhost:8080/login Hora: 19:36:53
-
-IP: 0:0:0:0:0:0:0:1:51294 URL: htpp://localhost:8080/secret Hora: 19:37:13
-
-IP: 0:0:0:0:0:0:0:1:51295 URL: htpp://localhost:8080/secret Hora: 19:37:19
-
